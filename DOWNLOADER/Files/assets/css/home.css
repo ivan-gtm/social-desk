@@ -1,0 +1,87 @@
+/*===
+ this css file is only for Home.php 
+===*/
+
+.flax_home_index {
+	display: block;
+	width: 73%;
+}
+
+.div_con_videos {
+	background: #fff;
+	display: inline-block;
+	width: 18%;
+	border: 1px solid #eee;
+	margin: 3%;
+	text-align: center;
+	box-shadow: 1px 1px 2px 0px #b5b5b5;
+}
+
+.name_social {
+	margin-left: 3%;
+	font-size: 17px;
+	font-weight: bold;
+	color: #565656;
+	font-family: 'Nunito', sans-serif;
+}
+
+.div_social {
+	padding: 2%;
+	display: flex;
+}
+
+.imgs_index_wall_home {
+	margin: auto;
+	/*position: relative;*/
+	width: 90px;
+	height: 90px;
+	/* margin-left: 18%; */
+}
+
+.p_des_con {
+	margin-left: 3%;
+	color: #565656;
+	font-size: 15px;
+	display: none;
+}
+
+.text_home {
+	width: 50%;
+	margin: auto;
+	margin-top: 3%;
+	color: #5b5b5d;
+	font-size: 18px;
+	text-shadow: -3px 3px #e2e0e0;
+}
+
+.text_home_footer {
+	border-bottom: 0px solid #eee;
+    text-align: center;
+    font-size: 13px;
+    font-weight: bold;
+    color: #636363;
+	margin-bottom: 1%;
+}
+
+.wall_one_div {
+	background: #edf0f5;
+	background: linear-gradient(#f5f5f5, #ffffff);
+	width: 100%;
+	padding: 2% 0% 2% 0%;
+}
+
+.wall_two_div {
+    box-shadow: 0px -21px 20px 4px #e8e8e8;	
+}
+
+#resultados {
+	background: transparent;
+    width: 60%;
+    margin: auto;
+}
+
+.h2_home {
+    color: #565656;
+    text-align: center;
+    padding: 2%;
+}

@@ -1,0 +1,17 @@
+/node_modules
+/public/hot
+/public/storage
+/public/images
+/front/app/vendor
+/front/assets/uploads/1
+/storage
+*/_MACOSX/*
+/storage/*.key
+/vendor
+/.idea
+/.vagrant
+Homestead.json
+Homestead.yaml
+npm-debug.log
+yarn-error.log
+.env
