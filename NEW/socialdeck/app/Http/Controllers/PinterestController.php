@@ -17,9 +17,13 @@ class PinterestController extends Controller
     private $originalContent;
 
 	public function index() {
-		$pinterest_posts = self::getPosts();
-			// print_r($pinterest_posts);
-			// exit;
+
+	}
+	
+	public function scrappResource($source, $resource_name) {
+		
+		$pinterest_posts = self::getPosts($source, $resource_name);
+
 		foreach ($pinterest_posts['item'] as $index => $pinpost) {
 			
 			$post = new Post;
@@ -78,7 +82,7 @@ class PinterestController extends Controller
 		InterventionImage::make($path)->save(public_path('images/' . $new_file_name));
 	}
 
-	public function getPosts() {
+	public function getPosts($source, $resource_name) {
 		// ini_set('display_errors', '0');
 		error_reporting(E_ALL | E_STRICT);
 
@@ -86,59 +90,19 @@ class PinterestController extends Controller
 		
 		$feed = new \DOMDocument();
 
-		// $page_id = 'gotravelplan/daily-outfit';
-		// $page_id = 'cabreradiana051/a-mi-gusto';
-		// $page_id = 'yarhed/atuendo-de-oficina';
-		// $page_id = 'lrt77/springsummer-fashion';
-		// $page_id = 'lrt77/fallwinter-fashion';
-		// $page_id = 'urbanoutfitters/looks-we-love';
-		// $page_id = 'outfits_hunter/fashion-blogger';
-		// $page_id = 'outfits_hunter/bohemians-style';
-		// $page_id = 'outfits_hunter/labels';
-		// $page_id = 'outfits_hunter/spring-style';
-		// $page_id = 'fanathjo/super-chic-y-fachion';
-		// $page_id = 'urbanoutfitters/dresses';
-		// $page_id = 'urbanoutfitters/femme';
-		// $page_id = 'iabarronla/moda';
-		// $page_id = 'gabbys7/outfita';
-		// $page_id = 'samanthaporras/all-things-fashion';
-		// $page_id = 'stefano2270/e-cosi-che-ti-voglio-ma-solo-per-me';
-		// $page_id = 'focusupnow/fashion';
-		// $page_id = 'jordanhayleyyy/fashion';
-		// $page_id = 'thelsd/fashion-streetstyle';
-		// $page_id = 'EmilySchuman/fall-winter-fashion';
-		// $page_id = 'ninagarcia/white-is-chic-all-year-round';
-		// $page_id = 'ninagarcia/style-is-on-the-streets';
-		// $page_id = 'stylewithclass/parisian-chic';
-		// $page_id = 'fairieieles/best-fashion-community';
-		// $page_id = 'gracenjoiner/passion-for-fashion';
-		// $page_id = 'jimenitabebe/outfits';
-		// $page_id = 'nataliiaverteletska/womens-fashion';
-		// $page_id = 'eatsleepwear/fashion';
-		// $page_id = 'feeforyou';
-		// $page_id = 'fashioncutt3r/trend-is-in-the-air';
-		// $page_id = 'fashioncutt3r/endless-summer';
-		// $page_id = 'juliannecarell/style-inspiration';
-		// $page_id = 'songofstyle/song-of-style';
-		// $page_id = 'Nadiasmassage/love-fashion';
-		// $page_id = 'aliciatenise/style-inspiration';
-		// $page_id = 'chistreetstyle/everyday-street-style';
-		// $page_id = 'winghead19/fashion-casual-wear-everyday';
-		// $page_id = 'altdawn/style';
-		// $page_id = 'stylewithclass/chic-on-the-streets';
-		// $page_id = 'ashleyjeanie/fashion';
-		// $page_id = 'lauragr58/outfits-con-ropa-q-tengo';
-		$page_id = 'successdress/street-fashion';
-		$page_id = 'fashionforlove/fashionistas';
+		
+		// $resource_name = 'fashionforlove/fashionistas';
+
+
 		$limit = isset($_GET['limit']) ? $_GET['limit'] : 200;
 		
 		// $source = 'user';
-		$source = 'board';
+		// $source = 'board';
 
 		if ( $source == 'board' ){
-		   $feed_url = 'https://www.pinterest.com/' . $page_id . '.rss';
+		   $feed_url = 'https://www.pinterest.com/' . $resource_name . '.rss';
 		} else {
-		   $feed_url = 'https://www.pinterest.com/' . $page_id . '/feed.rss';
+		   $feed_url = 'https://www.pinterest.com/' . $resource_name . '/feed.rss';
 		}
 		// echo $feed_url;
 		// exit;

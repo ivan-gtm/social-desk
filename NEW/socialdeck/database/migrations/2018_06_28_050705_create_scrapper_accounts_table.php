@@ -18,7 +18,7 @@ class CreateScrapperAccountsTable extends Migration
             $table->timestamps();
             $table->string('type', 100)->index();
             $table->bigInteger('origin_id')->unsigned()->index();
-            $table->string('username', 300)->index();
+            $table->string('username', 150)->index();
             $table->boolean('status')->index();
         });
     }

@@ -22,9 +22,9 @@ class CreateScrapperTasksTable extends Migration
             $table->boolean('is_recurrent');
             $table->boolean('status');
             $table->integer('interval');
-            $table->string('unit', 200)->index();
-            $table->string('type',200)->index();
-            $table->string('origin_id',200)->index();
+            $table->string('unit', 150)->index();
+            $table->string('type',150)->index();
+            $table->string('origin_id',150)->index();
         });
     }
 
