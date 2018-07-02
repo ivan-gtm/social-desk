@@ -7,12 +7,35 @@ use App\Post;
 use App\Account;
 use App\Caption;
 use App\User;
+use App\PostMedias;
 
 class PostController extends Controller
 {
     /**
      * Process
      */
+    public function edit($post_id, Request $request){
+        if(isset($post_id) && $post_id > 0){
+            $post = Post::where('id', '=', $post_id)->first();
+            // $media_ids = explode(",", $Post->media_ids);
+            $media = PostMedias::where('post_id', $post->id)->first();
+        }
+        
+
+        if($request->has('caption')){
+            // echo "<pre>";
+            // print_r($request->all());
+            // exit;
+            $post->caption = $request->caption;
+            $post->schedule_date = $request->schedule_date;
+            $post->save();
+        }
+
+        // print_r($media);
+        // return view('welcome', compact('post', 'captions', 'isVideoExtenstionsLoaded', 'integrations', 'AuthUser', 'accounts'));
+        return view('welcome', compact('post', 'media', 'post_id'));
+    }
+
     public function index($post_id)
     {
         // QUITAR ESTO
@@ -112,6 +135,21 @@ class PostController extends Controller
 
         // $this->view("post");
         $integrations = null;
+
+        // echo "<pre>";
+        // print_r($post);
+        // echo "<br>";
+        // print_r($captions);
+        // echo "<br>";
+        // print_r($isVideoExtenstionsLoaded);
+        // echo "<br>";
+        // print_r($integrations);
+        // echo "<br>";
+        // print_r($AuthUser);
+        // echo "<br>";
+        // print_r($accounts);
+        // echo "</pre>";
+        // exit;
         return view('post', compact('post', 'captions', 'isVideoExtenstionsLoaded', 'integrations', 'AuthUser', 'accounts'));
     }
 
@@ -405,7 +443,6 @@ class PostController extends Controller
         $this->resp->result = 1;
         $this->jsonecho();
     }
-
 
     private function search()
     {

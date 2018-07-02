@@ -15,7 +15,8 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/post/{post_id}', 'PostController@index');
+// Route::get('/post/{post_id}', 'PostController@index');
+Route::match(['get', 'post'],'/post/{post_id}', 'PostController@edit');
 Route::get('/user/{user_id}', 'UserController@index');
 Route::get('/users', 'UsersController@index');
 Route::get('/accounts', 'AccountsController@index');
@@ -40,5 +41,7 @@ Route::get('/accounts/auto-like/cron', 'AutoLikeController@cronJob');
 
 // SCRAPPER
 Route::get('/scrappy', 'IgFeedController@test');
-Route::get('/cron', 'CronController@send_scheduled_posts');
 Route::get('/pinterest', 'PinterestController@index');
+Route::get('/scrapper', 'ScheduledTaskController@index');
+
+

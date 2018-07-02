@@ -243,6 +243,12 @@
 
                                         <div class="mini-preview droppable">
                                             <div class="items clearfix">
+                                                <div class="item item--active" data-id="1199">
+                                                    <a class="js-close mdi mdi-close-circle" href="javascript:void(0)"></a>
+                                                <div>
+                                                <div class="img" style="background-image: url();"></div>
+                                                </div>
+                                                </div>
                                             </div>
 
                                             <div class="drophere">
@@ -421,7 +427,13 @@
                                         </div>
 
                                         <div class="preview-media--timeline">
-                                            <div class="placeholder"></div>
+                                            <!-- <div class="placeholder"></div> -->
+                                            <?php
+                                                $media_ids = explode(",", $post->media_ids);
+                                                $File = App\PostMedias::where('id', $media_ids[0])->first();
+                                                $fileurl = asset( 'images/' . $File->filename);
+                                            ?>
+                                            <div class="placeholder" style="background-image: url('{{ $fileurl  }}'); padding-top: 100%;"></div>
                                             <!-- <video src="#" playsinline autoplay muted loop></video> -->    
                                         </div>
 

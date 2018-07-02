@@ -111,23 +111,27 @@
                                                     }
                                                     
 
-                                                    $fileurl = asset( 'storage/'.$AuthUser->id. '/' . $File->filename);
+                                                    // $fileurl = asset( 'images/'.$AuthUser->id. '/' . $File->filename);
+                                                    $fileurl = asset( 'images/' . $File->filename);
+                                                    // $filepath = Storage::path('public/' . $AuthUser->id. '/' . $File->filename);
                                                     $filepath = Storage::path('public/' . $AuthUser->id. '/' . $File->filename);
+                                                    // $filepath = storage_path('app/public/images/' . $File->filename);
 
                                                 ?>
-                                                @if (file_exists($filepath))
+                                                <!-- if (file_exists($filepath)) -->
+                                                <!-- if (Storage::exists($File->filename)) -->
                                                     
                                                     @if ($type == "image")
                                                         <div class="img" style="background-image: url('{{ $fileurl }}')"></div>
                                                     @else
                                                         <video src='{{ $fileurl }}' playsinline autoplay muted loop></video>
                                                     @endif
-                                                @endif
+                                                <!-- endif -->
                                             @endif
                                         </div>
 
                                         <div class="caption">
-                                            <?= truncate_string($Emojione->shortnameToUnicode($Post->caption), 50); ?>
+                                            {{ truncate_string($Emojione->shortnameToUnicode($Post->caption), 50) }}
                                         </div>
 
                                         <?php if (!$ActiveAccount->isAvailable()): ?>

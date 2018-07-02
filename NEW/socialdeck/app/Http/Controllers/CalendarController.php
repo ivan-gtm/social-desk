@@ -13,7 +13,35 @@ class CalendarController extends Controller
     /**
      * Process
      */
-    public function index(Request $request)
+    public function index(Request $request){
+        $AuthUser = User::where('id', '=', 1)->first();
+        $AuthUser->settings = json_decode($AuthUser->settings);
+        $AuthUser->preferences = json_decode($AuthUser->preferences);
+
+        // echo "<pre>";
+        $now = \Carbon\Carbon::now(date_default_timezone_get());
+        // print_r(\Carbon\Carbon::now(date_default_timezone_get()));
+        // print_r($now);
+        $now->setTimezone($AuthUser->preferences->timezone);
+        // print_r("<br>");
+        // print_r($now);
+        // print_r("<br>");
+        // exit;
+
+        $year = $now->format("Y");
+        $month = $now->format("m");
+
+        // $this->monthView($request, $year, $month);
+        return redirect()->action(
+            'CalendarController@monthView', [
+                'request' => $request,
+                'year' => $year,
+                'month' => $month]
+        );
+
+    }
+
+    public function _index(Request $request)
     {
         $AuthUser = User::where('id', '=', 1)->first();
         $AuthUser->settings = json_decode($AuthUser->settings);
@@ -120,16 +148,22 @@ class CalendarController extends Controller
         if (count($Accounts) > 0) {
 
             // Define start and end dates
-            $start = \Carbon\Carbon::now($AuthUser->preferences->timezone)->setTimezone(date_default_timezone_get())->startOfMonth();
-            $end = \Carbon\Carbon::now($AuthUser->preferences->timezone)->setTimezone(date_default_timezone_get())->endOfMonth();
+            $start = \Carbon\Carbon::create($year, $month, 1, 0, 0, 0, date_default_timezone_get() )->startOfMonth();
+            $end = \Carbon\Carbon::create($year, $month, 1, 0, 0, 0, date_default_timezone_get() )->endOfMonth();
+            // $end = \Carbon\Carbon::now($AuthUser->preferences->timezone)->setTimezone(date_default_timezone_get())->endOfMonth();
 
+            // echo "<pre>";
+            // print_r($start);
+            // print_r($end);
+            // echo "</pre>";
+            // exit;
 
             // Get scheduled
             $ScheduledPosts = Post::where("user_id", "=", $AuthUser->id)
-                               ->where("is_scheduled", "=", 1)
+                               // ->where("is_scheduled", "=", 1)
                                ->whereIn("status", ["scheduled", "processing"])
-                               ->where("schedule_date", ">=", $start->format("Y-m-d H:i:s"))
-                               ->where("schedule_date", "<", $end->format("Y-m-d H:i:s"))->get();
+                               ->whereDate("schedule_date", ">=", $start->format("Y-m-d H:i:s"))
+                               ->whereDate("schedule_date", "<", $end->format("Y-m-d H:i:s"))->get();
 
 
             // if ($ActiveAccount->isAvailable()) {
@@ -261,7 +295,7 @@ class CalendarController extends Controller
 
             // Get scheduled posts
             $ScheduledPosts = Post::where( 'user_id', $AuthUser->id )
-                                   ->where("is_scheduled", 1)
+                                   // ->where("is_scheduled", 1)
                                    ->whereIn('status', ['scheduled', 'processing'])
                                    ->where("schedule_date", ">=", $start->format("Y-m-d H:i:s"))
                                    ->where("schedule_date", "<", $end->format("Y-m-d H:i:s"))

@@ -203,12 +203,12 @@ class IgFeedController extends Controller
 
 			$post = new Post;
 			$post->user_id = 1;
-			$post->is_scheduled = 1;
+			// $post->is_scheduled = 1;
 			$post->status = 'scheduled';
 			$post->schedule_date = \Carbon\Carbon::now();
 			$post->account_id = 2;
 			$post->publish_date = \Carbon\Carbon::now();
-			$post->create_date = \Carbon\Carbon::now();
+			// $post->create_date = \Carbon\Carbon::now();
 			$post->type = 'timeline';
 			$post->caption = $IgFeed->caption;
 			$post->data = '{}';

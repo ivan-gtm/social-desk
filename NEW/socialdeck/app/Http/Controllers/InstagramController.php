@@ -121,14 +121,14 @@ class InstagramController extends Controller
         // }
 
         // Check status
-        if ($Post->status != "publishing") {
-            // Setting post status to "publishing" before passing it 
-            // to this controller is in responsibility of
-            // PostController or CronController
-            // 
-            // Data has been modified by external factors
-            throw new \Exception(__("Post status is not valid!"));
-        }
+        // if ($Post->status != "publishing") {
+        //     // Setting post status to "publishing" before passing it 
+        //     // to this controller is in responsibility of
+        //     // PostController or CronController
+        //     // 
+        //     // Data has been modified by external factors
+        //     throw new \Exception(__("Post status is not valid!"));
+        // }
 
 
         // Update defaults data for the post (not save yet)
@@ -181,27 +181,29 @@ class InstagramController extends Controller
         // Check media ids
         
 
-        $media_ids = explode(",", $Post->media_ids);
-        foreach ($media_ids as $i => $id) {
-            if ((int)$id < 1) {
-                unset($media_ids[$i]);
-            } else {
-                $id = (int)$id;
-            }
-        }
-
-        $query = PostMedias::where("user_id", "=", $User->id)
-                       ->whereIn("id", $media_ids);
+        // $media_ids = explode(",", $Post->media_ids);
         
+        // foreach ($media_ids as $i => $id) {
+        //     if ((int)$id < 1) {
+        //         unset($media_ids[$i]);
+        //     } else {
+        //         $id = (int)$id;
+        //     }
+        // }
 
-        $res = $query->get();
+        // $query = 
+                       // ->whereIn("id", $media_ids);
 
-        $valid_media_ids = [];
+        $media = PostMedias::where("post_id", "=", $Post->id)->get();
+
+        // $valid_media_ids = [];
         $media_data = [];
-        $user_files_dir = storage_path("app/public/" . $User->id );
-        
-        echo "<pre>";
-        foreach ($res as $m) {
+        // $user_files_dir = Storage::path('public/' . $User->id);
+        $user_files_dir = public_path('images' );
+        // $filepath = Storage::path('public/' . $AuthUser->id. '/' . $File->filename);
+
+        foreach ($media as $m) {
+            
             $ext = strtolower(pathinfo($m->filename, PATHINFO_EXTENSION));
             
             // print_r( Storage::get( $m->filename) );
@@ -209,19 +211,28 @@ class InstagramController extends Controller
             // print_r( $user_files_dir."/".$m->filename );
             // print_r(pathinfo($m->filename, PATHINFO_EXTENSION));
 
+
             if (file_exists($user_files_dir."/".$m->filename) &&
                 in_array($ext, ["jpeg", "jpg", "png", "mp4"])) {
-                $valid_media_ids[] = $m->id;
+                // $valid_media_ids[] = $m->id;
+                $media_ids[] = $m->id;
                 $media_data[$m->id] = $m;
             }
         }
         
 
-        foreach ($media_ids as $i => $id) {
-            if (!in_array($id, $valid_media_ids)) {
-                unset($media_ids[$i]);
-            }
-        }
+        // echo "\n";
+        // print_r($user_files_dir."/".$m->filename);
+        // echo "\n";
+        // print_r( file_exists($user_files_dir."/".$m->filename) == true ? 'Hola' : 'no');
+        // echo "\n";
+        // exit;
+
+        // foreach ($media_ids as $i => $id) {
+        //     if (!in_array($id, $valid_media_ids)) {
+        //         unset($media_ids[$i]);
+        //     }
+        // }
         
         if ($type == "album" && count($media_ids) < 2) {
             $msg = __("At least 2 media file is required for the album post.");

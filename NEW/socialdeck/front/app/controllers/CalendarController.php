@@ -110,7 +110,7 @@ class CalendarController extends Controller
             // Get scheduled
             $ScheduledPosts = Controller::model("Posts");
             $ScheduledPosts->where(TABLE_PREFIX.TABLE_POSTS.".user_id", "=", $AuthUser->get("id"))
-                           ->where("is_scheduled", "=", 1)
+                           // ->where("is_scheduled", "=", 1)
                            ->whereIn("status", ["scheduled", "processing"])
                            ->where("schedule_date", ">=", $start->format("Y-m-d H:i:s"))
                            ->where("schedule_date", "<", $end->format("Y-m-d H:i:s"));
@@ -234,7 +234,7 @@ class CalendarController extends Controller
             // Get scheduled posts
             $ScheduledPosts = Controller::model("Posts");
             $ScheduledPosts->where(TABLE_PREFIX.TABLE_POSTS.".user_id", "=", $AuthUser->get("id"))
-                           ->where("is_scheduled", "=", 1)
+                           // ->where("is_scheduled", "=", 1)
                            ->whereIn("status", ["scheduled", "processing"])
                            ->where("schedule_date", ">=", $start->format("Y-m-d H:i:s"))
                            ->where("schedule_date", "<", $end->format("Y-m-d H:i:s"))

@@ -4,17 +4,70 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 
+use App\Post;
 use App\ScrapperAccounts;
 use App\ScrapperTasks;
+
+use App\Http\Controllers\InstagramController;
 use App\Http\Controllers\PinterestController;
 
 class ScheduledTaskController extends Controller
 {
-    /**
-     * Process
-     */
     public function index()
     {
+        // $this->scrappPinterest();
+        // $this->sendScheduledPosts();
+    }
+
+    public function sendScheduledPosts()
+    {
+        set_time_limit(0);
+
+        self::getScheduledPosts();
+
+        // \Event::trigger("cron.add");
+
+        echo "Cron task processed!\n";
+    }
+
+    private function getScheduledPosts()
+    {
+        // Get scheduled posts
+        $posts = Post::where('status','scheduled')
+                      // ->where('is_scheduled',  '1')
+                      ->whereDate('schedule_date', '<=', \Carbon\Carbon::now())
+                      ->where('status', 'scheduled')
+                      ->limit(1) // Limit posts to prevent server overload
+                      ->get();
+        
+        if (sizeof($posts) < 1) {
+            // There are no scheduled posts
+            return -1;
+        }
+
+        // echo "<pre>";
+        // print_r(date('Y-m-d H:i').':59');
+        // print_r($posts);
+        // echo "</pre>";
+        // exit;
+
+        foreach ($posts as $post) {
+            // Update post status
+            $post->status = 'publishing';
+            $post->save();
+
+            // try {
+              InstagramController::publish($post);
+            // } catch (\Exception $e) {
+                // Do nothing here
+                return 0;
+            // }
+        }
+
+        return true;
+    }
+
+    public function scrappPinterest(){
         // $this->registerAccounts();
         $Pinterest = new PinterestController();
 
